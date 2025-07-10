@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          font-family: "Poppins", sans-serif;
+        }
+      }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-theme-base text-theme-text flex flex-col items-center justify-center min-h-screen p-4"
+  >
+    <main
+      class="bg-theme-surface p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-2xl mb-8"
+    >
+      <div class="flex justify-between items-center mb-6">
+        <h1
+          class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+        >
+          Todo List
+        </h1>
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-full focus:outline-none hover:ring-2 hover:ring-purple-500 transition-shadow"
+        ></button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 mb-4">
+        <input
+          type="text"
+          id="todo-input"
+          placeholder="Add a todo ..."
+          class="flex-grow p-3 rounded-lg bg-theme-muted border-2 border-theme-stroke focus:outline-none focus:border-purple-500 transition-colors min-w-0"
+        />
+        <input
+          type="date"
+          id="date-input"
+          class="p-3 rounded-lg bg-theme-muted border-2 border-theme-stroke focus:outline-none focus:border-purple-500 transition-colors flex-shrink-0"
+        />
+        <button
+          id="add-button"
+          class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 flex-shrink-0"
+        >
+          <span class="sm:hidden">Add</span>
+          <span class="hidden sm:inline">+</span>
+        </button>
+      </div>
+      <p id="error-message" class="text-red-500 text-sm mb-4 hidden">
+        Please fill out both fields.
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4"
+      >
+        <div class="relative w-full sm:w-auto" id="filter-container">
+          <button
+            id="filter-button"
+            class="bg-theme-muted hover:bg-theme-hover text-theme-text font-bold py-2 px-4 rounded-lg transition-colors w-full flex justify-between items-center"
+          >
+            <span>Filter</span>
+            <svg
+              class="w-5 h-5 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+          <div
+            id="dropdown-menu"
+            class="hidden absolute left-0 mt-2 w-full sm:w-48 bg-theme-surface rounded-md shadow-lg z-10"
+          >
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-theme-text hover:bg-theme-hover"
+              data-filter="all"
+              >All</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-theme-text hover:bg-theme-hover"
+              data-filter="pending"
+              >Pending</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-theme-text hover:bg-theme-hover"
+              data-filter="completed"
+              >Completed</a
+            >
+          </div>
+        </div>
+        <button
+          id="delete-all-button"
+          class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors w-full sm:w-auto"
+        >
+          Delete All
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div
+          id="todo-header"
+          class="hidden md:grid grid-cols-4 gap-4 font-bold text-theme-subtle px-3"
+        >
+          <div>TASK</div>
+          <div>DUE DATE</div>
+          <div>STATUS</div>
+          <div class="text-right">ACTIONS</div>
+        </div>
+        <div id="todo-list" class="space-y-3"></div>
+      </div>
+      <p id="no-task-message" class="text-center text-theme-subtle mt-6">
+        No task found
+      </p>
+    </main>
+
+    <div
+      id="confirmation-modal"
+      class="hidden fixed inset-0 flex justify-center items-center z-50"
+    >
+      <div
+        class="bg-theme-surface rounded-lg shadow-xl p-6 w-full max-w-sm m-4"
+      >
+        <h3 class="text-lg font-bold mb-4" id="modal-title">
+          Confirm Deletion
+        </h3>
+        <p class="text-theme-text mb-6" id="modal-body">
+          Are you sure you want to delete this?
+        </p>
+        <div class="flex justify-end gap-4">
+          <button
+            id="modal-cancel-btn"
+            class="px-4 py-2 bg-theme-muted hover:bg-theme-hover rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            id="modal-confirm-btn"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-theme-subtle text-sm text-center py-4">
+      <p>
+        &copy; <span id="copyright-year"></span> Anna Maulina. All Rights
+        Reserved.
+      </p>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

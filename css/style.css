@@ -1,0 +1,154 @@
+:root {
+    --color-base: #111827;
+    --color-surface: #1f2937;
+    --color-muted: #374151;
+    --color-hover: #4b5563;
+    --color-stroke: #4b5563;
+    --color-text: #f9fafb;
+    --color-subtle: #9ca3af;
+    --calendar-picker-filter: invert(1);
+    --checkbox-bg: #374151;
+
+    --badge-pending-text: #facc15;
+    --badge-pending-bg: #78350f;
+    --badge-completed-text: #4ade80;
+    --badge-completed-bg: #166534;
+}
+
+body.light-mode {
+    --color-base: #f3f4f6;
+    --color-surface: #ffffff;
+    --color-muted: #e5e7eb;
+    --color-hover: #d1d5db;
+    --color-stroke: #d1d5db;
+    --color-text: #1f2937;
+    --color-subtle: #6b7280;
+    --calendar-picker-filter: invert(0);
+    --checkbox-bg: #ffffff;
+
+    --badge-pending-text: #a16207;
+    --badge-pending-bg: #fef9c3;
+    --badge-completed-text: #15803d;
+    --badge-completed-bg: #dcfce7;
+}
+
+body {
+    background-color: var(--color-base);
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.bg-theme-surface {
+    background-color: var(--color-surface);
+}
+
+.bg-theme-muted {
+    background-color: var(--color-muted);
+}
+
+.hover\:bg-theme-hover:hover {
+    background-color: var(--color-hover);
+}
+
+.text-theme-text {
+    color: var(--color-text);
+}
+
+.text-theme-subtle {
+    color: var(--color-subtle);
+}
+
+.border-theme-stroke {
+    border-color: var(--color-stroke);
+}
+
+.task-item {
+    background-color: var(--color-muted);
+}
+
+.bg-theme-checkbox {
+    background-color: var(--checkbox-bg);
+}
+
+.badge {
+    display: inline-block;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.badge-pending {
+    color: var(--badge-pending-text);
+    background-color: var(--badge-pending-bg);
+}
+
+.badge-completed {
+    color: var(--badge-completed-text);
+    background-color: var(--badge-completed-bg);
+}
+
+.custom-checkbox:checked {
+    background-color: #8b5cf6;
+    border-color: #8b5cf6;
+}
+
+.custom-checkbox:checked~.checkmark {
+    opacity: 1;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-hover);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: var(--calendar-picker-filter);
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    transform: scale(1.1);
+}
+
+#confirmation-modal {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.task-item {
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.task-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-left-color: #6366f1;
+}
+
+.task-item.completed {
+    border-left-color: #10b981;
+}
+
+.border-theme-stroke:focus {
+    border-color: #8b5cf6;
+}
