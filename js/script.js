@@ -158,7 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
     todoList.appendChild(taskItem);
     if (!taskTextParam) {
       todoInput.value = "";
-      dateInput.value = "";
+      if (window.innerWidth < 768) {
+        dateInput.value = new Date().toISOString().split("T")[0];
+      } else {
+        dateInput.value = "";
+      }
     }
 
     const completeCheckbox = taskItem.querySelector(".custom-checkbox");
@@ -227,8 +231,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const setDefaultDateForMobile = () => {
+    if (window.innerWidth < 768) {
+      if (!dateInput.value) {
+        dateInput.value = new Date().toISOString().split("T")[0];
+      }
+    } else {
+      dateInput.value = "";
+    }
+  };
+
   const initialTheme = localStorage.getItem("theme") || "dark";
   setTheme(initialTheme);
+
+  setDefaultDateForMobile();
 
   todoInput.addEventListener("input", handleRealtimeValidation);
   dateInput.addEventListener("input", handleRealtimeValidation);
@@ -279,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  window.addEventListener("resize", updateUI);
+  window.addEventListener("resize", setDefaultDateForMobile);
 
   dropdownMenu.addEventListener("click", (e) => {
     e.preventDefault();
